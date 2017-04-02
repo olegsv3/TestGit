@@ -25,7 +25,8 @@ namespace EasyWords
             SetActionBar();
 
             UpdateList();
-            _listView.ItemClick += OnItemClick;
+
+            _listView.ItemClick += OnItemClick;           
         }
 
         private void SetActionBar()
@@ -46,8 +47,7 @@ namespace EasyWords
             list.Add(new Card { Word1 = "Add language...", Word2 = ""});
 
             _listView = FindViewById<ListView>(Resource.Id.listView1);
-            var adapter = new SelectAdapter(this, list);
-            
+            var adapter = new SelectAdapter(this, list);           
          
             _listView.Adapter = adapter;
         }
@@ -63,8 +63,12 @@ namespace EasyWords
                 .SetView(editText)
                 .SetPositiveButton("OK", (s, e) =>
                 {
-                    FileWorker.AddLanguage(editText.Text);
-                    UpdateList();
+                    if (FileWorker.TestString(editText.Text))
+                    {
+                        FileWorker.AddLanguage(editText.Text);
+                        UpdateList();
+                    }
+                    else Toast.MakeText(this, "Invalid symbol", ToastLength.Long).Show();
                 })
                 .SetNegativeButton("Cancel", (s, e) =>
                 {
@@ -77,6 +81,11 @@ namespace EasyWords
         {
             if (e.Position == _listView.Count - 1)
                 AddLanguage();
+            else
+            {
+                FileWorker.ActiveLanguage = FindViewById<ListView>(Resource.Id.listView1).FindViewById<TextView>(Resource.Id.textView1).Text;
+                StartActivity(typeof(SelectCategoryActivity));
+            }
         }
     }
 }

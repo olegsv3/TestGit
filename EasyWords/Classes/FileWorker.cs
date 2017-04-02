@@ -26,11 +26,11 @@ namespace EasyWords
 
         static public string ActiveLanguage { get; set; }
         static public string ActiveCategory { get; set; }
-        static public Context ActiveActivity { get; set; }
 
         static public void Start()
         {
-            var fstream = new FileStream(_fileName, FileMode.OpenOrCreate);
+            var fstream = new FileStream(_fileName, FileMode.CreateNew);
+            //File.Create(_fileName).Dispose();
             fstream.Close();
             UpdateList();
         }
@@ -107,12 +107,21 @@ namespace EasyWords
             return true;
         }
 
-        static public List<string> GetCategories()
+        static public List<Card> GetCategories()
         {
-            return (from cat in _ListData
-                    where cat.Language == ActiveLanguage
-                    group cat by cat.Category into tmp
-                    select tmp.Key).ToList<string>();
+            var cats = (from cat in _ListData
+                        where cat.Language == ActiveLanguage
+                        group cat by cat.Category into tmp
+                        select new Card
+                        {
+                            Word1 = tmp.Key,
+                            Word2 = (((from word in _ListData
+                                       where word.Language == ActiveLanguage
+                                       group word by word.Category into z
+                                       select z).Count() - 1).ToString()) + " words"
+                        });
+
+            return cats.ToList<Card>();
         }
 
         static public bool AddWords(string word1, string word2)
@@ -134,14 +143,6 @@ namespace EasyWords
                     select new Card { Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
         }
 
-        static public bool TestString(string s)
-        {
-            if (s.Contains("|") || s == string.Empty)
-            {
-                Toast.MakeText(ActiveActivity, "Invalid character", ToastLength.Short);
-                return false;
-            }
-            return true;
-        }
+        static public bool TestString(string s) => !(s.Contains("|") || s == "" || s.Contains(" "));                  
     }
 }
