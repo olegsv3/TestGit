@@ -81,7 +81,7 @@ namespace EasyWords
 
         public void OnItemClick(object sender, ListView.ItemClickEventArgs e)
         {
-            var item = FindViewById<ListView>(Resource.Id.listView1);
+            var item = FindViewById<ListView>(Resource.Id.listView1).Adapter.GetView(e.Position, null, null);
 
             if (item.FindViewById<TextView>(Resource.Id.textView1).Text == "Add category...")
                 AddCategory();

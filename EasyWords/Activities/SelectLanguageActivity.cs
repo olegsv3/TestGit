@@ -83,7 +83,7 @@ namespace EasyWords
                 AddLanguage();
             else
             {
-                FileWorker.ActiveLanguage = FindViewById<ListView>(Resource.Id.listView1).FindViewById<TextView>(Resource.Id.textView1).Text;
+                FileWorker.ActiveLanguage = FindViewById<ListView>(Resource.Id.listView1).Adapter.GetView(e.Position, null, null).FindViewById<TextView>(Resource.Id.textView1).Text;
                 StartActivity(typeof(SelectCategoryActivity));
             }
         }

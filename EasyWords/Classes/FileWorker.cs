@@ -29,9 +29,8 @@ namespace EasyWords
 
         static public void Start()
         {
-            var fstream = new FileStream(_fileName, FileMode.CreateNew);
-            //File.Create(_fileName).Dispose();
-            fstream.Close();
+            
+            File.Create(_fileName).Dispose();
             UpdateList();
         }
 
@@ -110,7 +109,7 @@ namespace EasyWords
         static public List<Card> GetCategories()
         {
             var cats = (from cat in _ListData
-                        where cat.Language == ActiveLanguage
+                        where cat.Language == ActiveLanguage && cat.Category != ""
                         group cat by cat.Category into tmp
                         select new Card
                         {
