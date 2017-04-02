@@ -70,7 +70,10 @@ namespace EasyWords
 			public const int ic_keyboard_backspace_black_36dp = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Icon = 2130837507;
+			public const int ic_keyboard_backspace_white_36dp = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int Icon = 2130837508;
 			
 			static Drawable()
 			{
@@ -82,17 +85,48 @@ namespace EasyWords
 			}
 		}
 		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f070001
+			public const int imageView1 = 2131165185;
+			
+			// aapt resource value: 0x7f070003
+			public const int listView1 = 2131165187;
+			
+			// aapt resource value: 0x7f070002
+			public const int space1 = 2131165186;
+			
+			// aapt resource value: 0x7f070000
+			public const int textView1 = 2131165184;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
 		public partial class Layout
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Item = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int SelectCategory = 2130903041;
+			public const int Main = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int SelectLanguage = 2130903042;
+			public const int SelectCategory = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int SelectItem = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int SelectLanguage = 2130903044;
 			
 			static Layout()
 			{
@@ -112,6 +146,9 @@ namespace EasyWords
 			
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int MenuString = 2130968578;
 			
 			static String()
 			{

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Hello World, Click Me!</string>
-    <string name="ApplicationName">EasyWords</string>
+  <string name="Hello">Hello World, Click Me!</string>
+  <string name="ApplicationName">EasyWords</string>
   <color name="backgroundColor">#ffffff</color>
+  <string name="MenuString">Select Language_Options_Exit</string>
 </resources>

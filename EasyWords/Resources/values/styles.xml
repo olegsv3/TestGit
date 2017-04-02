@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <style name="MyTheme" parent="android:Theme.Light">
+  <style name="MyTheme" parent="android:Theme.Material.Light">
     <item name="android:colorPrimary">#3f51b5</item>
     <item name="android:colorPrimaryDark">#303f9f</item>
     <item name="android:textColorPrimary">#ffffff</item>
