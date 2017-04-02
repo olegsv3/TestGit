@@ -21,6 +21,8 @@ namespace EasyWords
 
             GenerateList();
 
+            FileWorker.Start();
+
         }
 
         private void SetActionBar()

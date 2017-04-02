@@ -26,11 +26,12 @@ namespace EasyWords
 
         static public string ActiveLanguage { get; set; }
         static public string ActiveCategory { get; set; }
+        static public Context ActiveActivity { get; set; }
 
         static public void Start()
         {
-            File.Delete(_fileName);
-            File.Create(_fileName).Dispose();
+            var fstream = new FileStream(_fileName, FileMode.OpenOrCreate);
+            fstream.Close();
             UpdateList();
         }
 
@@ -62,26 +63,32 @@ namespace EasyWords
                 _ListData.Add(dataItem);
             }
         }
-
         static public List<Card> GetLanguages()
         {
             if (_ListData != null)
             {
                 var langs = from lang in _ListData
-                            group lang by lang.Language
-                            into tmp
-                            select new Card { Word1 = tmp.Key, Word2 = $"{tmp.Count().ToString()} Categories" };
+                            group lang by lang.Language into tmp
+                            select new Card
+                            {
+                                Word1 = tmp.Key,
+                                Word2 = (((from cat in _ListData
+                                          where cat.Language == tmp.Key
+                                          group cat by cat.Category into z
+                                          select z).Count() - 1).ToString()) + " categories"
+                            };
+
                 return langs.ToList<Card>();
             }
             return new List<Card>();
-            
-
-
         }
 
         static public bool AddLanguage(string lang)
         {
-            if (GetLanguages().Contains(new Card { Word1 = lang})) return false;
+            foreach (var card in GetLanguages())
+            {
+                if (card.Word1 == lang) return false;
+            }
             _writer = new StreamWriter(_fileName, true);
             _writer.WriteLine(lang);
             _writer.Close();
@@ -125,6 +132,16 @@ namespace EasyWords
             return (from card in _ListData
                     where card.Language == ActiveLanguage && card.Category == ActiveCategory
                     select new Card { Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
+        }
+
+        static public bool TestString(string s)
+        {
+            if (s.Contains("|") || s == string.Empty)
+            {
+                Toast.MakeText(ActiveActivity, "Invalid character", ToastLength.Short);
+                return false;
+            }
+            return true;
         }
     }
 }

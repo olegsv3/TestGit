@@ -25,7 +25,6 @@ namespace EasyWords
             SetActionBar();
 
             UpdateList();
-
             _listView.ItemClick += OnItemClick;
         }
 
