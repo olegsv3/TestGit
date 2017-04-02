@@ -91,6 +91,9 @@ namespace EasyWords
 			// aapt resource value: 0x7f070001
 			public const int imageView1 = 2131165185;
 			
+			// aapt resource value: 0x7f070004
+			public const int linearLayout1 = 2131165188;
+			
 			// aapt resource value: 0x7f070003
 			public const int listView1 = 2131165187;
 			
@@ -99,6 +102,9 @@ namespace EasyWords
 			
 			// aapt resource value: 0x7f070000
 			public const int textView1 = 2131165184;
+			
+			// aapt resource value: 0x7f070005
+			public const int textView2 = 2131165189;
 			
 			static Id()
 			{

@@ -29,6 +29,7 @@ namespace EasyWords
 
         static public void Start()
         {
+            File.Delete(_fileName);
             File.Create(_fileName).Dispose();
             UpdateList();
         }
@@ -62,17 +63,25 @@ namespace EasyWords
             }
         }
 
-        static public List<string> GetLanguages()
+        static public List<Card> GetLanguages()
         {
-            return (from lang in _ListData
-                    group lang by lang.Language
-                    into tmp
-                    select tmp.Key).ToList();
+            if (_ListData != null)
+            {
+                var langs = from lang in _ListData
+                            group lang by lang.Language
+                            into tmp
+                            select new Card { Word1 = tmp.Key, Word2 = $"{tmp.Count().ToString()} Categories" };
+                return langs.ToList<Card>();
+            }
+            return new List<Card>();
+            
+
+
         }
 
         static public bool AddLanguage(string lang)
         {
-            if (GetLanguages().Contains(lang)) return false;
+            if (GetLanguages().Contains(new Card { Word1 = lang})) return false;
             _writer = new StreamWriter(_fileName, true);
             _writer.WriteLine(lang);
             _writer.Close();

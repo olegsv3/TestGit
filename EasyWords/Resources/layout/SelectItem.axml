@@ -2,4 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="64dp" />
+    android:layout_height="64dp"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_weight="15">
+        <TextView
+            android:text="English"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:textSize="18sp"
+            android:textColor="#000000" />
+        <TextView
+            android:text="25 categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:textSize="14sp"
+            android:textColor="#000000" />
+    </LinearLayout>
+    <ImageView
+        android:src="@drawable/ic_keyboard_arrow_right_black_36dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:id="@+id/imageView1"
+        android:layout_weight="1"
+        android:alpha="0.6" />
+</LinearLayout>
