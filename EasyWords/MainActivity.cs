@@ -4,15 +4,24 @@ using Android.OS;
 
 namespace EasyWords
 {
-    [Activity(Label = "EasyWords", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "EasyWords", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/MyTheme")]
     public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
-            // SetContentView (Resource.Layout.Main);
+            SetContentView(Resource.Layout.Main);
+
+            SetActionBar();
+
+        }
+
+        private void SetActionBar()
+        {
+            //ActionBar.SetDisplayShowHomeEnabled(true);
+            ///ActionBar.SetIcon(Resource.Drawable.ic_crop_5_4_white_36dp);
+            //ActionBar.Title = "   Easy words";
         }
     }
 }

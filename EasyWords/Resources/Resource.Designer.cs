@@ -41,11 +41,36 @@ namespace EasyWords
 			}
 		}
 		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int backgroundColor = 2131034112;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Color()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int ic_crop_5_4_white_36dp = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public const int ic_keyboard_arrow_right_black_36dp = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int ic_keyboard_backspace_black_36dp = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int Icon = 2130837507;
 			
 			static Drawable()
 			{
@@ -62,6 +87,12 @@ namespace EasyWords
 			
 			// aapt resource value: 0x7f030000
 			public const int Main = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int SelectCategory = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int SelectLanguage = 2130903042;
 			
 			static Layout()
 			{
@@ -88,6 +119,22 @@ namespace EasyWords
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7f060000
+			public const int MyTheme = 2131099648;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
 			{
 			}
 		}
