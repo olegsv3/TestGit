@@ -29,6 +29,12 @@ namespace EasyWords
             _listView.ItemClick += OnItemClick;           
         }
 
+        protected override void OnResume()
+        {
+            UpdateList();
+            base.OnResume();
+        }
+
         private void SetActionBar()
         {
             ActionBar.SetDisplayHomeAsUpEnabled(true);

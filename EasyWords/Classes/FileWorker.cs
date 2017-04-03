@@ -114,8 +114,9 @@ namespace EasyWords
                         select new Card
                         {
                             Word1 = tmp.Key,
-                            Word2 = (((from word in _ListData
-                                       where word.Language == ActiveLanguage
+                            Word2 = (((from word in tmp
+                                       where word.Language == ActiveLanguage && word.Category != ""
+                                       where word.Category == tmp.Key
                                        group word by word.Category into z
                                        select z).Count() - 1).ToString()) + " words"
                         });
@@ -142,6 +143,9 @@ namespace EasyWords
                     select new Card { Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
         }
 
-        static public bool TestString(string s) => !(s.Contains("|") || s == "" || s.Contains(" "));                  
+        static public bool TestString(string s) => !(s.Contains("|") || s == "" || s.Contains(" ") || s.Contains("\n"));
+
+        static public bool TestStringCat(string s) => !(s.Contains("|") || s.Contains("\n"));
+
     }
 }

@@ -65,7 +65,7 @@ namespace EasyWords
                 .SetView(editText)
                 .SetPositiveButton("OK", (s, e) =>
                 {
-                    if (FileWorker.TestString(editText.Text))
+                    if (FileWorker.TestStringCat(editText.Text))
                     {
                         FileWorker.AddCategory(editText.Text);
                         UpdateList();
