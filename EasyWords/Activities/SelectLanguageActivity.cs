@@ -85,7 +85,7 @@ namespace EasyWords
 
         public void OnItemClick(object sender, ListView.ItemClickEventArgs e)
         {
-            if (e.Position == _listView.Count - 1)
+            if (FindViewById<ListView>(Resource.Id.listView1).Adapter.GetView(e.Position, null, null).FindViewById<TextView>(Resource.Id.textView1).Text == "Add language...")
                 AddLanguage();
             else
             {

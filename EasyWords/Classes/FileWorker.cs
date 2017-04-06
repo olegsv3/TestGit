@@ -139,7 +139,7 @@ namespace EasyWords
         static public List<Card> GetWords()
         {
             return (from card in _ListData
-                    where card.Language == ActiveLanguage && card.Category == ActiveCategory
+                    where card.Language == ActiveLanguage && card.Category == ActiveCategory && card.Word1 != ""
                     select new Card { Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
         }
 

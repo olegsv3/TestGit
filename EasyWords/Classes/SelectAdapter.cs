@@ -36,9 +36,10 @@ namespace EasyWords
             view.FindViewById<TextView>(Resource.Id.textView1).Text = _list[position].Word1;
             view.FindViewById<TextView>(Resource.Id.textView2).Text = _list[position].Word2;
 
-            if (position == _list.Count - 1)
-                view.FindViewById<ImageView>(Resource.Id.imageView1).Alpha = 0;
-
+            if (view.FindViewById<TextView>(Resource.Id.textView1).Text == "Add language..." || view.FindViewById<TextView>(Resource.Id.textView1).Text == "Add category")
+                view.FindViewById<ImageView>(Resource.Id.imageView1).Alpha = 0.0f;
+            else
+                view.FindViewById<ImageView>(Resource.Id.imageView1).Alpha = 0.6f;
             return view;
         }
     }

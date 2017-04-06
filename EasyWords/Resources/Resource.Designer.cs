@@ -28,6 +28,31 @@ namespace EasyWords
 		{
 		}
 		
+		public partial class Animation
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int AnimLeftClamp = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int AnimRightClamp = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int AnimScaleDown = 2130968578;
+			
+			// aapt resource value: 0x7f040003
+			public const int AnimScaleUp = 2130968579;
+			
+			static Animation()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Animation()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -44,8 +69,8 @@ namespace EasyWords
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int backgroundColor = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int backgroundColor = 2131099648;
 			
 			static Color()
 			{
@@ -61,13 +86,13 @@ namespace EasyWords
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int ic_crop_5_4_white_36dp = 2130837504;
+			public const int ic_add_circle_white_36dp = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int ic_keyboard_arrow_right_black_36dp = 2130837505;
+			public const int ic_crop_5_4_white_36dp = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int ic_keyboard_backspace_black_36dp = 2130837506;
+			public const int ic_keyboard_arrow_right_black_36dp = 2130837506;
 			
 			// aapt resource value: 0x7f020003
 			public const int ic_keyboard_backspace_white_36dp = 2130837507;
@@ -88,23 +113,38 @@ namespace EasyWords
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070001
-			public const int imageView1 = 2131165185;
+			// aapt resource value: 0x7f090007
+			public const int ActiveCard = 2131296263;
 			
-			// aapt resource value: 0x7f070004
-			public const int linearLayout1 = 2131165188;
+			// aapt resource value: 0x7f090009
+			public const int NonActiveCard = 2131296265;
 			
-			// aapt resource value: 0x7f070003
-			public const int listView1 = 2131165187;
+			// aapt resource value: 0x7f090006
+			public const int absoluteLayout1 = 2131296262;
 			
-			// aapt resource value: 0x7f070002
-			public const int space1 = 2131165186;
+			// aapt resource value: 0x7f09000a
+			public const int buttonAdd = 2131296266;
 			
-			// aapt resource value: 0x7f070000
-			public const int textView1 = 2131165184;
+			// aapt resource value: 0x7f090008
+			public const int editText1 = 2131296264;
 			
-			// aapt resource value: 0x7f070005
-			public const int textView2 = 2131165189;
+			// aapt resource value: 0x7f090001
+			public const int imageView1 = 2131296257;
+			
+			// aapt resource value: 0x7f090004
+			public const int linearLayout1 = 2131296260;
+			
+			// aapt resource value: 0x7f090003
+			public const int listView1 = 2131296259;
+			
+			// aapt resource value: 0x7f090002
+			public const int space1 = 2131296258;
+			
+			// aapt resource value: 0x7f090000
+			public const int textView1 = 2131296256;
+			
+			// aapt resource value: 0x7f090005
+			public const int textView2 = 2131296261;
 			
 			static Id()
 			{
@@ -134,6 +174,9 @@ namespace EasyWords
 			// aapt resource value: 0x7f030004
 			public const int SelectLanguage = 2130903044;
 			
+			// aapt resource value: 0x7f030005
+			public const int Words = 2130903045;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -144,17 +187,33 @@ namespace EasyWords
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f080000
+			public const int menuAdd = 2131230720;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int ApplicationName = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int Hello = 2131034112;
 			
-			// aapt resource value: 0x7f040002
-			public const int MenuString = 2130968578;
+			// aapt resource value: 0x7f050002
+			public const int MenuString = 2131034114;
 			
 			static String()
 			{
@@ -169,8 +228,8 @@ namespace EasyWords
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int MyTheme = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int MyTheme = 2131165184;
 			
 			static Style()
 			{

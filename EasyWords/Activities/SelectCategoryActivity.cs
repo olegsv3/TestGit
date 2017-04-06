@@ -85,6 +85,11 @@ namespace EasyWords
 
             if (item.FindViewById<TextView>(Resource.Id.textView1).Text == "Add category...")
                 AddCategory();
+            else
+            {
+                FileWorker.ActiveCategory = item.FindViewById<TextView>(Resource.Id.textView1).Text;
+                StartActivity(typeof(WordsActivity));
+            }
         }
     }
 }
