@@ -132,11 +132,9 @@ namespace EasyWords
                         select new Card
                         {
                             Word1 = tmp.Key,
-                            Word2 = (((from word in tmp
-                                       where word.Language == ActiveLanguage && word.Category != ""
-                                       where word.Category == tmp.Key
-                                       group word by word.Category into z
-                                       select z).Count() - 1).ToString()) + " words"
+                            Word2 = ((from item in _ListData
+                                      where item.Language == ActiveLanguage && item.Category == tmp.Key
+                                      select item).Count() - 1).ToString() + " words"
                         });
 
             return cats.ToList<Card>();

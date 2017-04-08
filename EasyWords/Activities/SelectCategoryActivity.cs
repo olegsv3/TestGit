@@ -29,6 +29,12 @@ namespace EasyWords
             _listView.ItemClick += OnItemClick;
         }
 
+        protected override void OnResume()
+        {
+            UpdateList();
+            base.OnResume();
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             this.OnBackPressed();
