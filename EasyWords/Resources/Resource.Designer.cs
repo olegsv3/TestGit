@@ -32,16 +32,25 @@ namespace EasyWords
 		{
 			
 			// aapt resource value: 0x7f040000
-			public const int AnimLeftClamp = 2130968576;
+			public const int AnimDown = 2130968576;
 			
 			// aapt resource value: 0x7f040001
-			public const int AnimRightClamp = 2130968577;
+			public const int AnimLeft = 2130968577;
 			
 			// aapt resource value: 0x7f040002
-			public const int AnimScaleDown = 2130968578;
+			public const int AnimLeftClamp = 2130968578;
 			
 			// aapt resource value: 0x7f040003
-			public const int AnimScaleUp = 2130968579;
+			public const int AnimRight = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public const int AnimRightClamp = 2130968580;
+			
+			// aapt resource value: 0x7f040005
+			public const int AnimScaleDown = 2130968581;
+			
+			// aapt resource value: 0x7f040006
+			public const int AnimScaleUp = 2130968582;
 			
 			static Animation()
 			{

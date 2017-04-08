@@ -18,7 +18,9 @@ namespace EasyWords
     {
         private FrameLayout _activeCard;
         private FrameLayout _nonActiveCard;
-
+        private EditText _activeEditText;
+        private EditText _nonActiveEditText;
+        private TextView _statusText;
 
         private readonly float _clampLeft = -1200.0f;
         private readonly float _clampRight = 1200.0f;
@@ -31,35 +33,28 @@ namespace EasyWords
 
         private List<Card> _words;
         private Card _currentCard;
+        private Card _originalCard;
 
         private int _currentIndex;
         private bool _isTranslate = false;
-        private bool _isNewCard = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.Words);
+            SetActionBar();
 
+            _words = FileWorker.GetWords();
+     
             _activeCard = FindViewById<FrameLayout>(Resource.Id.ActiveCard);
             _nonActiveCard = FindViewById<FrameLayout>(Resource.Id.NonActiveCard);
-            
+            _activeEditText = _activeCard.FindViewById<EditText>(Resource.Id.editText1);
+            _nonActiveEditText = _nonActiveCard.FindViewById<EditText>(Resource.Id.editText1);
+            _statusText = FindViewById<TextView>(Resource.Id.textView1);
+
             _activeCard.TranslationX = _clampRight;
             _nonActiveCard.TranslationX = _clampRight;
 
-            //_words = FileWorker.GetWords();
-            _currentIndex = default(int);
-
-            _words = new List<Card>
-            {
-                new Card{ Word1 = "Apple", Word2 = "Яблоко"},
-                new Card{ Word1 = "Pineapple", Word2 = "Ананас"},
-                new Card{ Word1 = "Lemon", Word2 = "Лимон"},
-                new Card{ Word1 = "Orange", Word2 = "Апельсин"}
-            };
-
-            SetActionBar();
             Start();
         }
 
@@ -70,74 +65,77 @@ namespace EasyWords
             ActionBar.SetDisplayShowCustomEnabled(true);
         }
 
-
-
-
-        public void Start()
+        public void Save(object sender, EventArgs e)
         {
-            if (_words.Count > 0)
+            if (_isTranslate)
             {
-                _activeCard.FindViewById<EditText>(Resource.Id.editText1).Text = _words[0].Word1;
-                _currentCard = new Card { Word1 = _words[0].Word1, Word2 = _words[0].Word2};
-
+                _currentCard.Word2 = _activeEditText.Text;
+                _words[_currentIndex].Word2 = _activeEditText.Text;
             }
             else
             {
-                _isNewCard = true;
-                _currentCard = new Card();
+                _currentCard.Word1 = _activeEditText.Text;
+                _words[_currentIndex].Word1 = _activeEditText.Text;
             }
-            _activeCard.Animate().SetDuration(500).TranslationX(_zero).Start();
-            UpdateStatus();
         }
 
-        public void AddCard()
+        public void Start()
         {
-            SaveCard();
+            if(_words.Count == 0)
+            {
+                _originalCard = new Card();
+                _currentCard = new Card();
+                _words.Add(new Card());
 
-            _activeCard.Animate().SetDuration(500).TranslationX(_clampLeft).Start();
+                _activeEditText.Text = string.Empty;
 
-            _nonActiveCard.FindViewById<EditText>(Resource.Id.editText1).Text = "";
-            _nonActiveCard.TranslationY = _clampUp;
-            _nonActiveCard.TranslationX = _zero;
-            _nonActiveCard.Animate().SetDuration(500).TranslationY(_zero).Start();
+                _isTranslate = false;
 
-            SwitchActiveCard();
+                _activeCard.Animate().SetDuration(1000).TranslationX(_zero).Start();
+            }
 
-            _currentIndex = _words.Count;
-            _isNewCard = true;
-            _isTranslate = false;
-            _currentCard = new Card();
+            else
+            {
+                _originalCard = _words[0];
+                _currentCard = _originalCard;
+
+                _activeEditText.Text = _currentCard.Word1;
+
+                _isTranslate = false;
+
+                _activeCard.Animate().SetDuration(600).TranslationX(_zero).Start();
+            }
+            _currentIndex = 0;
+            _activeEditText.AfterTextChanged += Save;
         }
-
-        public void SwitchActiveCard()
-        {
-            var tmp = _activeCard;
-            _activeCard = _nonActiveCard;
-            _nonActiveCard = tmp;
-        }      
 
         public void Left()
         {
-            if (_currentIndex > _words.Count - 2)
+            if(_currentIndex == _words.Count-1)
             {
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.AnimLeftClamp);
                 _activeCard.StartAnimation(anim);
             }
+
             else
             {
-                _activeCard.Animate().SetDuration(500).TranslationX(_clampLeft).Start();
+                _activeEditText.AfterTextChanged -= Save;
+                SaveCard();
 
                 _currentIndex++;
+
+                _activeCard.Animate().SetDuration(600).TranslationX(_clampLeft).Start();               
+
+                _originalCard = _words[_currentIndex];
+                _currentCard = _originalCard;
                 _isTranslate = false;
-                _currentCard = new Card { Word1 = _words[_currentIndex].Word1, Word2 = _words[_currentIndex].Word2 };
-                _nonActiveCard.FindViewById<EditText>(Resource.Id.editText1).Text = _currentCard.Word1;
+                _nonActiveEditText.Text = _currentCard.Word1;
 
                 _nonActiveCard.TranslationX = _clampRight;
-                _nonActiveCard.Animate().SetDuration(500).TranslationX(_zero).Start();                
+                _nonActiveCard.Animate().SetDuration(600).TranslationX(_zero).Start();
 
-                SwitchActiveCard();
-                SaveCard();
-                UpdateStatus();
+                SwithCard();
+                _activeEditText.AfterTextChanged += Save;
             }
         }
 
@@ -148,90 +146,113 @@ namespace EasyWords
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.AnimRightClamp);
                 _activeCard.StartAnimation(anim);
             }
+
             else
             {
-                _activeCard.Animate().SetDuration(500).TranslationX(_clampRight).Start();
+                _activeEditText.AfterTextChanged -= Save;
+
+                SaveCard();
 
                 _currentIndex--;
+
+                _activeCard.Animate().SetDuration(600).TranslationX(_clampRight).Start();
+
+                _originalCard = _words[_currentIndex];
+                _currentCard = _originalCard;
                 _isTranslate = false;
-                _currentCard = new Card { Word1 = _words[_currentIndex].Word1, Word2 = _words[_currentIndex].Word2 };
-                _nonActiveCard.FindViewById<EditText>(Resource.Id.editText1).Text = _currentCard.Word1;
+                _nonActiveEditText.Text = _currentCard.Word1;
 
                 _nonActiveCard.TranslationX = _clampLeft;
-                _nonActiveCard.Animate().SetDuration(500).TranslationX(_zero).Start();
+                _nonActiveCard.Animate().SetDuration(600).TranslationX(_zero).Start();
 
-                SwitchActiveCard();
-                SaveCard();
-                UpdateStatus();
+                SwithCard();
+
+                _activeEditText.AfterTextChanged += Save;
             }
         }
 
         public void Scale()
         {
+            _activeEditText.AfterTextChanged -= Save;
             Animation animDown = AnimationUtils.LoadAnimation(this, Resource.Animation.AnimScaleDown);
             Animation animUp = AnimationUtils.LoadAnimation(this, Resource.Animation.AnimScaleUp);
 
             _activeCard.StartAnimation(animDown);
+
             animDown.AnimationEnd += (s, e) =>
             {
                 _isTranslate = !_isTranslate;
-                SwitchTextInCard();                
+                _activeEditText.Text = _isTranslate ? _currentCard.Word2 : _currentCard.Word1;
                 _activeCard.StartAnimation(animUp);
             };
+            _activeEditText.AfterTextChanged += Save;
         }
 
-        public void SwitchTextInCard()
+        public void AddCard()
         {
-            if (_isTranslate)
-                _activeCard.FindViewById<EditText>(Resource.Id.editText1).Text = _currentCard.Word2;
-            else
-                _activeCard.FindViewById<EditText>(Resource.Id.editText1).Text = _currentCard.Word1;
+            if (_words.Last().Word1 == string.Empty && _currentIndex != _words.Count-1)
+            {
+                _activeEditText.AfterTextChanged -= Save;
+                SaveCard();
+
+                _currentIndex = _words.Count - 1;
+
+                _activeCard.Animate().SetDuration(600).TranslationX(_clampLeft).Start();
+
+                _originalCard = _words[_currentIndex];
+                _currentCard = _originalCard;
+                _isTranslate = false;
+                _nonActiveEditText.Text = _currentCard.Word1;
+
+                _nonActiveCard.TranslationX = _clampRight;
+                _nonActiveCard.Animate().SetDuration(600).TranslationX(_zero).Start();
+
+                SwithCard();
+                _activeEditText.AfterTextChanged += Save;
+            }
+
+            else if(_words.Last().Word1 != string.Empty)
+            {
+                _activeEditText.AfterTextChanged -= Save;
+                SaveCard();
+
+                _activeCard.Animate().SetDuration(600).TranslationX(_clampLeft).Start();
+
+                _originalCard = new Card();
+                _currentCard = new Card();
+                _words.Add(new Card());
+                _currentIndex = _words.Count - 1;
+                _isTranslate = false;
+                _nonActiveEditText.Text = _currentCard.Word1;
+
+                _nonActiveCard.TranslationX = _clampRight;
+                _nonActiveCard.Animate().SetDuration(600).TranslationX(_zero).Start();
+
+                SwithCard();
+                _activeEditText.AfterTextChanged += Save;
+            }
         }
 
         public void SaveCard()
         {
-            if(_isNewCard)
+            if(_originalCard != _currentCard)
             {
-                if(_currentCard.Word1 != "")
-                {
-
-                }
-            }
-
-            else if(_words[_currentIndex].Word1 != _currentCard.Word1 || _words[_currentIndex].Word2 != _currentCard.Word2)
-            { 
-
+                FileWorker.SaveWord(_currentCard);
+                _words = FileWorker.GetWords();
             }
         }
 
-        public void SaveCardToList()
+        public void SwithCard()
         {
+            var tmpCard = _activeCard;
+            var tmpText = _activeEditText;
 
+            _activeCard = _nonActiveCard;
+            _activeEditText = _nonActiveEditText;
+
+            _nonActiveCard = tmpCard;
+            _nonActiveEditText = tmpText;
         }
-
-        public void SaveCardToFile()
-        {
-
-        }
-
-        public void EditCardInList()
-        {
-
-        }
-
-        public void EditCardInFile()
-        {
-
-        }
-
-        public void UpdateStatus()
-        {
-            FindViewById<TextView>(Resource.Id.textView1).Text = $"{_currentIndex + 1}/{_words.Count}";
-        }
-
-
-
-
 
 
 

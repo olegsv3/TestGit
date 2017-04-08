@@ -24,6 +24,22 @@ namespace EasyWords
         static private List<string> _list;
         static private List<DataItem> _ListData;
 
+        static public int GetLastIndex
+        {
+            get
+            {
+                if (_ListData.Count == 0 || GetWords().Count ==0)
+                    return 0;
+                int i = 0;
+                int index = -1;
+                while(index == -1)
+                {
+                    index = _ListData[_ListData.Count - ++i].Key;
+                }
+                return index;                
+            }
+        }
+
         static public string ActiveLanguage { get; set; }
         static public string ActiveCategory { get; set; }
 
@@ -54,14 +70,16 @@ namespace EasyWords
                 string[] tmp = str.Split('|');
                 var dataItem = new DataItem()
                 {
-                    Language = tmp.Length > 0 ? tmp[0] : "",
-                    Category = tmp.Length > 1 ? tmp[1] : "",
-                    Word1 = tmp.Length > 2 ? tmp[2] : "",
-                    Word2 = tmp.Length > 3 ? tmp[3] : ""
+                    Key = tmp.Length > 0 ? int.Parse(tmp[0]) : 0,
+                    Language = tmp.Length > 1 ? tmp[1] : "",
+                    Category = tmp.Length > 2 ? tmp[2] : "",
+                    Word1 = tmp.Length > 3 ? tmp[3] : "",
+                    Word2 = tmp.Length > 4 ? tmp[4] : ""
                 };
                 _ListData.Add(dataItem);
             }
         }
+
         static public List<Card> GetLanguages()
         {
             if (_ListData != null)
@@ -89,7 +107,7 @@ namespace EasyWords
                 if (card.Word1 == lang) return false;
             }
             _writer = new StreamWriter(_fileName, true);
-            _writer.WriteLine(lang);
+            _writer.WriteLine($"-1|{lang}");
             _writer.Close();
             UpdateList();
             return true;
@@ -97,7 +115,7 @@ namespace EasyWords
 
         static public bool AddCategory(string cat)
         {
-            var formatString = $"{ActiveLanguage}|{cat}";
+            var formatString = $"-1|{ActiveLanguage}|{cat}";
             if (_list.Contains(formatString)) return false;
             _writer = new StreamWriter(_fileName, true);
             _writer.WriteLine(formatString);
@@ -124,23 +142,41 @@ namespace EasyWords
             return cats.ToList<Card>();
         }
 
-        static public bool AddWords(string word1, string word2)
+        static public void SaveWord(Card card)
         {
-            string formatString = $"{ActiveLanguage}|{ActiveCategory}|{word1}|{word2}";
-
-            _writer = new StreamWriter(_fileName, true);
-            _writer.WriteLine(formatString);
-            _writer.Close();
-
+            string formatString = $"{GetLastIndex+1}|{ActiveLanguage}|{ActiveCategory}|{card.Word1}|{card.Word2}";
+            if (card.Key == default(int))
+            {
+                _writer = new StreamWriter(_fileName, true);
+                _writer.WriteLine(formatString);
+                _writer.Close();
+            }
+            else
+            {
+                var index = _list.FindIndex(c => c.StartsWith($"{card.Key}|"));
+                _list[index] = formatString;
+                ResafeFile();
+            }
             UpdateList();
-            return true;
         }
+
+        static public void ResafeFile()
+        {
+            File.Create(_fileName).Dispose();
+            _writer = new StreamWriter(_fileName, true);
+            foreach (var item in _list)
+            {
+                _writer.WriteLine(item);
+            }
+            _writer.Close();
+        }
+
 
         static public List<Card> GetWords()
         {
             return (from card in _ListData
                     where card.Language == ActiveLanguage && card.Category == ActiveCategory && card.Word1 != ""
-                    select new Card { Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
+                    select new Card { Key = card.Key, Word1 = card.Word1, Word2 = card.Word2 }).ToList<Card>();
         }
 
         static public bool TestString(string s) => !(s.Contains("|") || s == "" || s.Contains(" ") || s.Contains("\n"));
