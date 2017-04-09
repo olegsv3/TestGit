@@ -13,7 +13,7 @@ using Android.Views.Animations;
 
 namespace EasyWords
 {
-    [Activity(Label = "WordsActivitys", Theme = "@style/MyTheme")]
+    [Activity(Label = "Easy words", Theme = "@style/MyTheme")]
     public class WordsActivity : Activity
     {
         private FrameLayout _activeCard;
@@ -107,6 +107,7 @@ namespace EasyWords
             }
             _currentIndex = 0;
             _activeEditText.AfterTextChanged += Save;
+            UpdateStatus();
         }
 
         public void Left()
@@ -126,8 +127,8 @@ namespace EasyWords
 
                 _activeCard.Animate().SetDuration(600).TranslationX(_clampLeft).Start();               
 
-                _originalCard = _words[_currentIndex];
-                _currentCard = _originalCard;
+                _originalCard = new Card(_words[_currentIndex]);
+                _currentCard = new Card(_originalCard);
                 _isTranslate = false;
                 _nonActiveEditText.Text = _currentCard.Word1;
 
@@ -136,6 +137,7 @@ namespace EasyWords
 
                 SwithCard();
                 _activeEditText.AfterTextChanged += Save;
+                UpdateStatus();
             }
         }
 
@@ -157,8 +159,8 @@ namespace EasyWords
 
                 _activeCard.Animate().SetDuration(600).TranslationX(_clampRight).Start();
 
-                _originalCard = _words[_currentIndex];
-                _currentCard = _originalCard;
+                _originalCard = new Card(_words[_currentIndex]);
+                _currentCard = new Card(_originalCard);
                 _isTranslate = false;
                 _nonActiveEditText.Text = _currentCard.Word1;
 
@@ -168,6 +170,7 @@ namespace EasyWords
                 SwithCard();
 
                 _activeEditText.AfterTextChanged += Save;
+                UpdateStatus();
             }
         }
 
@@ -199,8 +202,8 @@ namespace EasyWords
 
                 _activeCard.Animate().SetDuration(600).TranslationX(_clampLeft).Start();
 
-                _originalCard = _words[_currentIndex];
-                _currentCard = _originalCard;
+                _originalCard = new Card(_words[_currentIndex]);
+                _currentCard = new Card(_originalCard);
                 _isTranslate = false;
                 _nonActiveEditText.Text = _currentCard.Word1;
 
@@ -231,11 +234,12 @@ namespace EasyWords
                 SwithCard();
                 _activeEditText.AfterTextChanged += Save;
             }
+            UpdateStatus();
         }
 
         public void SaveCard()
         {
-            if(_originalCard != _currentCard)
+            if(_originalCard.Word1 != _currentCard.Word1 || _originalCard.Word2 != _currentCard.Word2)
             {
                 FileWorker.SaveWord(_currentCard);
                 _words = FileWorker.GetWords();
@@ -252,6 +256,17 @@ namespace EasyWords
 
             _nonActiveCard = tmpCard;
             _nonActiveEditText = tmpText;
+        }
+
+        public void UpdateStatus()
+        {
+            _statusText.Text = $"{_currentIndex + 1}/{_words.Count}";
+        }
+
+        public override void OnBackPressed()
+        {
+            SaveCard();
+            base.OnBackPressed();
         }
 
 

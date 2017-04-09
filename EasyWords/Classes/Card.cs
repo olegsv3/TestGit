@@ -18,5 +18,12 @@ namespace EasyWords
             Word1 = string.Empty;
             Word2 = string.Empty;
         }
+
+        public Card(Card c)
+        {
+            Key = c.Key;
+            Word1 = c.Word1;
+            Word2 = c.Word2;
+        }
     }
 }

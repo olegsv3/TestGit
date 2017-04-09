@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:id="@+id/space1" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
